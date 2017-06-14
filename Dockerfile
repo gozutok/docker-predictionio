@@ -1,10 +1,9 @@
-FROM ubuntu
-MAINTAINER Steven Yan
+FROM ubuntu:16.04
 
-ENV PIO_VERSION 0.10.0
-ENV SPARK_VERSION 1.5.1
-ENV ELASTICSEARCH_VERSION 1.4.4
-ENV HBASE_VERSION 1.0.0
+ENV PIO_VERSION 0.11.0
+ENV SPARK_VERSION 1.6.3
+ENV ELASTICSEARCH_VERSION 1.7.5
+ENV HBASE_VERSION 1.2.2
 
 ENV PIO_HOME /PredictionIO-${PIO_VERSION}-incubating
 ENV PATH=${PIO_HOME}/bin:$PATH
@@ -16,9 +15,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -O http://mirror.nexcess.net/apache/incubator/predictionio/${PIO_VERSION}-incubating/apache-predictionio-${PIO_VERSION}-incubating.tar.gz \
-    && tar -xvzf apache-predictionio-${PIO_VERSION}-incubating.tar.gz -C / \
+    && mkdir /apache-predictionio-${PIO_VERSION}-incubating \
+    && tar -xvzf apache-predictionio-${PIO_VERSION}-incubating.tar.gz -C /apache-predictionio-${PIO_VERSION}-incubating \
     && rm apache-predictionio-${PIO_VERSION}-incubating.tar.gz \
-    && cd apache-predictionio-${PIO_VERSION}-incubating \
+    && cd /apache-predictionio-${PIO_VERSION}-incubating \
     && ./make-distribution.sh
 
 RUN tar zxvf /apache-predictionio-${PIO_VERSION}-incubating/PredictionIO-${PIO_VERSION}-incubating.tar.gz -C /
@@ -36,7 +36,7 @@ RUN curl -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elast
     && echo 'cluster.name: predictionio' >> ${PIO_HOME}/vendors/elasticsearch-${ELASTICSEARCH_VERSION}/config/elasticsearch.yml \
     && echo 'network.host: 127.0.0.1' >> ${PIO_HOME}/vendors/elasticsearch-${ELASTICSEARCH_VERSION}/config/elasticsearch.yml
 
-RUN curl -O http://archive.apache.org/dist/hbase/hbase-${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
+RUN curl -O http://archive.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
     && tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz -C ${PIO_HOME}/vendors \
     && rm hbase-${HBASE_VERSION}-bin.tar.gz
 COPY files/hbase-site.xml ${PIO_HOME}/vendors/hbase-${HBASE_VERSION}/conf/hbase-site.xml
