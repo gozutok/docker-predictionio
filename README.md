@@ -1,9 +1,9 @@
-This project is derived from sphereio/docker-predictionio
+This project is derived from steveny/predictionio
 
 # PredictionIO docker container
 Docker container for PredictionIO-based machine learning services
 
-[![Docker build](http://dockeri.co/image/steveny/predictionio)](https://registry.hub.docker.com/u/steveny/predictionio/)
+[![Docker build](http://dockeri.co/image/gozutok/predictionio)](https://registry.hub.docker.com/u/gozutok/predictionio/)
 
 [PredictionIO](https://prediction.io) is an open-source Machine Learning
 server for developers and data scientists to build and deploy predictive
@@ -16,7 +16,7 @@ This container uses Apache Spark, HBase and Elasticsearch. The PredictionIO vers
   1. (faster; stable version) obtain docker image from public docker registry:
 
     ```Bash
-    $ docker run -it -p 8000:8000 steveny/predictionio /bin/bash
+    $ docker run -it -p 8000:8000 gozutok/predictionio /bin/bash
     ```
   2. (slower) build docker image from local Dockerfile: cd to the path containing the Dockerfile, then:
     
